@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Circus Mania — самое безумное шоу Minecraft</title>
+<meta name="description" content="Circus Mania — ванильный Minecraft-сервер с духом ночного цирка. Java: circusmania.ddns.net:30417, Bedrock: circusmania.ddns.net:19071.">
+<meta name="theme-color" content="#07040a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Circus Mania">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Circus Mania — самое безумное шоу Minecraft">
+<meta property="og:description" content="Ванильное выживание для Java и Bedrock. Заходи в цирк!">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js'</script>
+<style>
+*{box-sizing:border-box;margin:0}
+:root{color-scheme:dark;--bg:#07040a;--ink:#f4ecf0;--mut:#a99aa8;--red:#e0153a;--pur:#7c3aed;--gold:#f5c15a;--glass:rgba(255,255,255,.05);--line:rgba(255,255,255,.11);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:84px;background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Manrope,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.dsp{font-family:Unbounded,Impact,sans-serif;line-height:1.12}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{width:min(1180px,100% - 40px);margin:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:12px;border:1px solid var(--line);font:800 .95rem Manrope,sans-serif;letter-spacing:.04em;color:var(--ink);background:var(--glass);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
+.btn:hover{transform:translateY(-3px);border-color:var(--gold)}
+.btn.p{background:linear-gradient(120deg,var(--red),#a3155f 55%,var(--pur));border-color:transparent;box-shadow:0 8px 30px -8px rgba(224,21,58,.7)}
+.btn.p:hover{box-shadow:0 12px 40px -6px rgba(224,21,58,.95),0 0 0 1px var(--gold)}
+.btn.sm{padding:10px 18px;font-size:.85rem}
+.btn.big{width:100%;padding:18px;font-size:1.05rem}
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(7,4,10,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{font:900 1.05rem Unbounded,sans-serif;letter-spacing:.06em;display:flex;gap:10px;align-items:center}
+.logo b{width:26px;height:26px;background:conic-gradient(var(--red) 0 25%,#fff 0 50%,var(--red) 0 75%,#fff 0);image-rendering:pixelated;border-radius:4px;box-shadow:0 0 16px var(--red)}
+.links{display:flex;gap:26px;font-weight:600;font-size:.92rem;color:var(--mut)}
+.links a{position:relative;padding:6px 0;transition:color .2s}
+.links a:hover{color:var(--ink)}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold);transition:width .25s}
+.links a:hover::after{width:100%}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);width:44px;height:44px;border-radius:10px;font-size:1.3rem;cursor:pointer}
+@media(max-width:1020px){.burger{display:block}.nav .btn{display:none}
+.links{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;background:rgba(7,4,10,.97);padding:8px 20px 20px;border-bottom:1px solid var(--line);display:none}
+.links.open{display:flex}.links a{padding:14px 0;border-bottom:1px solid var(--line)}}
+/* hero */
+.hero{position:relative;min-height:calc(100svh - 68px);display:grid;align-items:center;padding:60px 0 200px;overflow:hidden;background:radial-gradient(60% 50% at 50% 0,rgba(124,58,237,.3),transparent),radial-gradient(50% 45% at 85% 90%,rgba(224,21,58,.22),transparent),var(--bg)}
+.hero canvas{position:absolute;left:0;width:100%;pointer-events:none}
+#fx{top:0;height:100%}
+#sky{bottom:0;height:190px;image-rendering:pixelated}
+.beams{position:absolute;inset:0;pointer-events:none;transform:translateY(calc(var(--sy,0)*.25px))}
+.beams i{position:absolute;top:-12%;width:24vw;min-width:170px;height:115%;transform-origin:50% 0;clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);filter:blur(5px);animation:sw 9s ease-in-out infinite alternate}
+.beams i:nth-child(1){left:2%;--r:-16deg;background:linear-gradient(#f5c15a55,transparent 72%)}
+.beams i:nth-child(2){left:38%;--r:4deg;background:linear-gradient(#e0153a55,transparent 70%);animation-delay:-3s;animation-duration:11s}
+.beams i:nth-child(3){right:0;--r:18deg;background:linear-gradient(#7c3aed66,transparent 72%);animation-delay:-6s}
+@keyframes sw{from{transform:rotate(calc(var(--r) - 9deg))}to{transform:rotate(calc(var(--r) + 9deg))}}
+.hero-in{position:relative;z-index:2;display:grid;gap:44px;grid-template-columns:1.2fr .8fr;align-items:center;transform:translateY(calc(var(--sy,0)*.1px))}
+@media(max-width:960px){.hero-in{grid-template-columns:1fr}.hero{padding-bottom:170px}}
+.tag{color:var(--gold);font-weight:800;letter-spacing:.24em;font-size:.78rem;margin-bottom:18px}
+h1{font-weight:900;font-size:clamp(2.7rem,10.2vw,6.4rem);letter-spacing:-.01em;background:linear-gradient(180deg,#fff 0,var(--gold) 46%,var(--red) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(224,21,58,.5))}
+h1 span{display:block}
+h1 span+span{animation:fl 7s infinite}
+@keyframes fl{0%,90%,100%{opacity:1}92%{opacity:.55}94%{opacity:1}96%{opacity:.7}}
+.sub{font-size:clamp(1.05rem,2.4vw,1.35rem);color:#e5d6de;max-width:30ch;margin:22px 0 32px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.card{position:relative;overflow:hidden;background:var(--glass);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .3s,border-color .3s,box-shadow .3s}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(245,193,90,.14),transparent 60%)}
+.card:hover{transform:translateY(-6px);border-color:rgba(245,193,90,.45);box-shadow:0 24px 60px -24px rgba(124,58,237,.6)}
+.card:hover::before{opacity:1}
+.srv{padding:26px;display:grid;gap:16px}
+.srv h3{font-size:.85rem;color:var(--mut);letter-spacing:.14em}
+.on{display:flex;align-items:center;gap:10px;font:800 1.15rem Manrope}
+.dot{width:11px;height:11px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 #3ddc84;animation:pl 2s infinite}
+@keyframes pl{70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bar{height:8px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar i{display:block;height:100%;width:24%;background:linear-gradient(90deg,var(--gold),var(--red));box-shadow:0 0 14px var(--red)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:.78rem;font-weight:800;padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.06)}
+/* sections */
+.sec{padding:clamp(70px,10vw,120px) 0;position:relative}
+.hd{text-align:center;margin-bottom:clamp(36px,6vw,64px)}
+.hd h2{font-weight:800;font-size:clamp(1.55rem,4.4vw,3rem)}
+.hd p{color:var(--mut);max-width:58ch;margin:16px auto 0}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.feat{padding:32px}
+.feat em{font-style:normal;font-size:2.4rem;display:block;margin-bottom:14px;filter:drop-shadow(0 0 14px var(--red))}
+.feat h3{font-size:1.15rem;margin-bottom:10px}
+.feat p,.mode p,.news p{color:var(--mut);font-size:.95rem}
+.pad{padding:22px;display:grid;gap:12px}
+canvas.art{display:block;width:100%;aspect-ratio:2/1;image-rendering:pixelated;border-bottom:1px solid var(--line)}
+.mode h3,.news h3{font-size:1.1rem}
+.mode .btn{justify-self:start;margin-top:4px}
+.mode:hover canvas{filter:saturate(1.4) brightness(1.15)}
+.ips{grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))}
+.ips .pad{padding:28px;gap:14px}
+.ipr{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;background:rgba(0,0,0,.4);border:1px dashed rgba(245,193,90,.45);border-radius:12px;padding:10px 12px}
+.ipr small{color:var(--mut);font-weight:800;min-width:3.6em}
+.ipr code{font:800 1rem ui-monospace,Menlo,monospace;color:var(--gold);word-break:break-all}
+@media(max-width:480px){.ipr{grid-template-columns:1fr auto}.ipr small{grid-column:1/-1}}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.tabs button{font:800 .92rem Manrope,sans-serif;color:var(--ink);padding:12px 18px;border-radius:99px;border:1px solid var(--line);background:var(--glass);cursor:pointer;transition:border-color .25s,background .25s,transform .25s}
+.tabs button:hover{transform:translateY(-2px)}
+.tabs button[aria-selected=true]{border-color:var(--gold);background:rgba(245,193,90,.14);color:var(--gold)}
+.rp{max-width:720px;margin:auto;padding:34px;display:grid;gap:16px;justify-items:start}
+.rp p{color:#e1d2da;font-size:1.05rem}
+.rp h3{font-size:1.3rem}
+.rn{animation:rin .45s ease-out}
+@keyframes rin{from{opacity:0;transform:translateY(10px)}}
+.bp{position:fixed;width:7px;height:7px;pointer-events:none;z-index:98;animation:bp .8s ease-out forwards}
+@keyframes bp{to{transform:translate(var(--x),var(--y));opacity:0}}
+.shop .card{padding:30px 26px;display:grid;gap:14px;align-content:start;--c:#fff}
+.shop .card:hover{border-color:var(--c);box-shadow:0 20px 60px -20px var(--c)}
+.shop h3{color:var(--c);font-size:1.4rem;text-shadow:0 0 22px var(--c)}
+.shop ul{list-style:none;padding:0;display:grid;gap:9px;color:#dccdd6;font-size:.93rem}
+.shop li::before{content:"■ ";color:var(--c);font-size:.7rem}
+.price{font:800 2rem Unbounded,sans-serif}.price small{font:600 .85rem Manrope;color:var(--mut)}
+.hit{border-color:rgba(224,21,58,.6)!important}
+.news .pad p{min-height:3.2em}
+.meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mut);font-weight:600}
+.meta b{color:var(--gold)}
+.more{color:var(--gold);font-weight:800;justify-self:start;transition:letter-spacing .25s}
+.more:hover{letter-spacing:.05em}
+.dc{position:relative;overflow:hidden;text-align:center;padding:clamp(48px,8vw,96px) 24px;border-radius:32px;border:1px solid rgba(245,193,90,.35);background:radial-gradient(70% 90% at 50% 0,rgba(224,21,58,.4),transparent),radial-gradient(60% 80% at 50% 100%,rgba(124,58,237,.45),transparent),#0d0712;box-shadow:0 0 90px -30px var(--pur)}
+.dc h2{font-weight:900;font-size:clamp(1.9rem,6vw,4rem);text-shadow:0 0 40px var(--red)}
+.dc p{color:#e7d8e0;max-width:46ch;margin:18px auto 30px}
+.dn{display:flex;justify-content:center;gap:clamp(24px,7vw,80px);margin-bottom:34px;flex-wrap:wrap}
+.dn b{display:block;font:900 clamp(1.8rem,4vw,2.6rem) Unbounded,sans-serif;color:var(--gold)}
+.dn span{color:var(--mut);font-weight:600}
+.dc .beams{opacity:.6;transform:none}
+.dc>*:not(.beams){position:relative}
+details{border:1px solid var(--line);background:var(--glass);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:border-color .25s}
+details[open]{border-color:rgba(245,193,90,.5)}
+summary{padding:20px 24px;font:800 1.02rem Unbounded,sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--gold);font-size:1.4rem;line-height:1;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details ul{padding:0 24px 22px 44px;color:#d9cad3;display:grid;gap:8px}
+footer{border-top:1px solid var(--line);padding:56px 0 40px;background:linear-gradient(180deg,transparent,rgba(124,58,237,.1))}
+.ft{display:grid;gap:26px;justify-items:center;text-align:center}
+.ft p{color:var(--mut)}
+.fl{display:flex;gap:10px 26px;flex-wrap:wrap;justify-content:center;font-weight:600}
+.fl a:hover{color:var(--gold)}
+.so{display:flex;gap:12px}
+.so a{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line);background:var(--glass);font:800 .78rem Manrope;transition:transform .25s,border-color .25s,color .25s}
+.so a:hover{transform:translateY(-4px);border-color:var(--gold);color:var(--gold)}
+.cp{font-size:.85rem;color:var(--mut)}
+#ld{position:fixed;inset:0;z-index:99;background:var(--bg);display:grid;place-content:center;justify-items:center;gap:22px;transition:opacity .6s,visibility .6s}
+#ld.x{opacity:0;visibility:hidden}
+#ld b{font:900 clamp(1.8rem,7vw,3rem) Unbounded,sans-serif;text-align:center;color:var(--gold);text-shadow:0 0 30px var(--red);animation:fl 1.6s infinite}
+#ld i{width:180px;height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+#ld i::after{content:"";display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--red),var(--gold));animation:ld 1s ease-in-out infinite}
+@keyframes ld{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .7s var(--d,0ms),transform .7s var(--d,0ms)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.card.in:hover{transform:translateY(-6px)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="ld" aria-hidden="true"><b>CIRCUS<br>MANIA</b><i></i></div>
+
+<header class="nav">
+ <div class="wrap">
+  <a class="logo" href="#home" aria-label="Circus Mania — на главную"><b></b>CIRCUS MANIA</a>
+  <nav class="links" id="menu" aria-label="Основная навигация">
+   <a href="#home">Главная</a><a href="#about">О проекте</a><a href="#join">Как зайти</a><a href="#shop">Магазин</a><a href="#news">Новости</a><a href="#rules">Правила</a>
+  </nav>
+  <a class="btn p sm" href="#join">ИГРАТЬ</a>
+  <button class="burger" id="bg" aria-label="Меню" aria-expanded="false" aria-controls="menu">☰</button>
+ </div>
+</header>
+
+<main>
+<section id="home" class="hero">
+ <div class="beams" aria-hidden="true"><i></i><i></i><i></i></div>
+ <canvas id="fx" aria-hidden="true"></canvas>
+ <canvas id="sky" aria-hidden="true"></canvas>
+ <div class="wrap hero-in">
+  <div>
+   <p class="tag">★ MINECRAFT NETWORK ★</p>
+   <h1><span>CIRCUS</span><span>MANIA</span></h1>
+   <p class="sub">Добро пожаловать в самое безумное шоу Minecraft.</p>
+   <div class="cta"><a class="btn p" href="#join">ИГРАТЬ СЕЙЧАС</a><a class="btn" href="#discord">DISCORD</a></div>
+  </div>
+  <aside class="card srv" aria-label="Информация о сервере">
+   <h3>СТАТУС СЕРВЕРА</h3>
+   <div class="row"><span class="on"><i class="dot"></i>ONLINE</span><strong>12 / 50</strong></div>
+   <div class="bar" role="img" aria-label="Онлайн 12 из 50"><i></i></div>
+   <div class="chips"><span class="chip">Vanilla</span><span class="chip">Java Edition</span><span class="chip">Bedrock Edition</span></div>
+   <div class="ipr"><small>Java</small><code>circusmania.ddns.net:30417</code></div>
+   <div class="ipr"><small>Bedrock</small><code>circusmania.ddns.net:19071</code></div>
+   <button class="btn p big" data-copy="circusmania.ddns.net:30417">COPY JAVA IP</button>
+   <button class="btn big" data-copy="circusmania.ddns.net:19071">COPY BEDROCK IP</button>
+  </aside>
+ </div>
+</section>
+
+<section id="about" class="sec"><div class="wrap">
+ <div class="hd rv"><h2>Добро пожаловать в Circus Mania</h2><p>Circus Mania — небольшой ванильный Minecraft-проект, где игроков ждут приключения, совместные стройки и неожиданные сюрпризы. Занавес поднят — выходи на арену.</p></div>
+ <div class="grid" id="feat"></div>
+</div></section>
+
+<section id="join" class="sec"><div class="wrap">
+ <div class="hd rv"><h2>ВХОД В ЦИРК</h2><p>Чистая ваниль. Выбери свою версию Minecraft, скопируй адрес и заходи.</p></div>
+ <div class="grid ips" id="ipg"></div>
+</div></section>
+
+<section id="role" class="sec"><div class="wrap">
+ <div class="hd rv"><h2>КТО ТЫ В НАШЕМ ЦИРКЕ?</h2><p>Выбери роль — и узнай, с чего начать в ванильном мире.</p></div>
+ <div class="tabs rv" id="rt" role="tablist" aria-label="Роли"></div>
+ <div class="card rp" id="rp" aria-live="polite"></div>
+</div></section>
+
+<section id="shop" class="sec shop"><div class="wrap">
+ <div class="hd rv"><h2>МАГАЗИН CIRCUS MANIA</h2><p>Привилегии, которые делают выход на арену ещё эффектнее.</p></div>
+ <div class="grid" id="sh"></div>
+</div></section>
+
+<section id="news" class="sec"><div class="wrap">
+ <div class="hd rv"><h2>ПОСЛЕДНИЕ НОВОСТИ</h2></div>
+ <div class="grid" id="nw"></div>
+</div></section>
+
+<section id="discord" class="sec"><div class="wrap">
+ <div class="dc rv">
+  <div class="beams" aria-hidden="true"><i></i><i></i><i></i></div>
+  <h2>НЕ ПРОПУСТИ ШОУ</h2>
+  <p>Присоединяйся к нашему Discord и будь в центре событий Circus Mania.</p>
+  <div class="dn"><div><b data-to="210">0</b><span>участников</span></div><div><b data-to="34">0</b><span>сейчас онлайн</span></div></div>
+  <div class="cta" style="justify-content:center"><a class="btn p" href="https://discord.com/" rel="noopener">JOIN DISCORD</a><a class="btn" href="https://t.me/+ll5rBbyRjOhlZmZi" rel="noopener">TELEGRAM-КАНАЛ</a></div>
+ </div>
+</div></section>
+
+<section id="rules" class="sec"><div class="wrap" style="max-width:860px">
+ <div class="hd rv"><h2>ПРАВИЛА</h2><p>Коротко о главном: уважай других — и шоу продолжается.</p></div>
+ <div id="rl"></div>
+</div></section>
+</main>
+
+<footer><div class="wrap ft">
+ <div class="logo"><b></b>CIRCUS MANIA</div>
+ <p>Твоё самое безумное приключение начинается здесь.</p>
+ <nav class="fl" aria-label="Ссылки внизу"><a href="#home">Главная</a><a href="#rules">Правила</a><a href="#shop">Магазин</a><a href="#discord">Discord</a><a href="mailto:support@circusmania.ru">Поддержка</a></nav>
+ <div class="so"><a href="https://discord.com/" aria-label="Discord" rel="noopener">DS</a><a href="https://youtube.com/" aria-label="YouTube" rel="noopener">YT</a><a href="https://t.me/+ll5rBbyRjOhlZmZi" aria-label="Telegram" rel="noopener">TG</a><a href="https://vk.com/" aria-label="ВКонтакте" rel="noopener">VK</a></div>
+ <p class="cp">© 2026 Circus Mania. Все права защищены.</p>
+</div></footer>
+
+<script>
+(()=>{
+const D=document,$=(s,e=D)=>e.querySelector(s),$$=(s,e=D)=>[...e.querySelectorAll(s)];
+const R=(s,a,f)=>{$(s).innerHTML=a.map(f).join('')};
+const feats=[["🎪","Уникальный мир","Собственная вселенная Minecraft с особой атмосферой и авторскими локациями."],["⚡","Динамичный геймплей","Испытания, события сообщества и совместные активности — скучно не будет."],["🏆","Большое сообщество","Дружные игроки, таблица лидеров и события для всего комьюнити."]];
+const shop=[["VIP","199","#4ade80",["Префикс [VIP] в чате","Цветной ник","Приоритетный вход","3 точки дома"]],["PREMIUM","449","#a78bfa",["Всё из VIP","Уникальные частицы","Доступ к кит-набору","6 точек дома"]],["DELUXE","899","#f5c15a",["Всё из PREMIUM","Питомцы и трейлы","Ранний доступ к ивентам","10 точек дома"]],["COSMIC","1490","#f43f5e",["Всё из DELUXE","Эксклюзивные эффекты","Свой цирковой костюм","Личный приват на Survival"]]];
+const news=[["12 сентября 2026","Обновление","Большое обновление Circus Mania","Новые локации на спавне и множество исправлений. Заходи и оцени.","#1b0f2e,#7a1226,#e0153a,#2a1520"],["3 сентября 2026","Мир","Открыт новый регион мира","Границы расширены: больше места, чтобы строить и исследовать.","#0b1230,#3b1a70,#a78bfa,#241a4a"],["28 августа 2026","События","Ночной фестиваль начинается","Огни, шоу и совместная стройка. Не пропусти открытие.","#1a0f2e,#8a5a0f,#f5c15a,#3a2a1a"]];
+const rules=[["Общие правила",["Уважайте игроков и администрацию","Один игрок — один аккаунт","Читы и моды с преимуществом запрещены","Нашли баг — сообщите, а не используйте"]],["Правила чата",["Без спама, флуда и капса","Без оскорблений, угроз и дискриминации","Без рекламы сторонних проектов","Не публикуйте личные данные"]],["Правила игрового процесса",["Гриферство в чужих приватах запрещено","Ловушки для игроков и кража вещей запрещены","AFK-фермы — только в разрешённых зонах","Выполняйте указания модераторов"]],["Наказания",["Предупреждение → мут → временный бан → перманентный бан","За читы — бан без предупреждения","Апелляция — в Discord в течение 7 дней","Незнание правил не освобождает от ответственности"]]];
+
+const ips=[["Java Edition",[["IP","circusmania.ddns.net:30417"]],"Multiplayer → Add Server → вставь IP в поле адреса сервера."],["Bedrock Edition",[["Адрес","circusmania.ddns.net"],["Порт","19071"]],"Play → Servers → Add Server → введи адрес и порт в отдельные поля."]];
+const roles=[["🎪","Архитектор шатра","Тебе — строить. Красно-белая шерсть, золотые блоки и стекло: собери свой шатёр, арену или целый цирк-городок.",["Красно-белая палитра","Большие проекты","Совместные стройки"]],["🧭","Следопыт","Ты идёшь дальше карты. Пещеры, деревни, крепости и края мира — твой маршрут.",["Исследование","Карты и компас","Редкие находки"]],["🪙","Ловкий торговец","Ты знаешь цену всему. Фермы, обмен с жителями и торговля с игроками — твой билет к богатству.",["Фермы","Жители","Обмен с игроками"]],["🐺","Укротитель","Приручай волков, лошадей и котов, разводи скот и держи свою ферму в порядке.",["Приручение","Разведение","Ферма"]]];
+R('#ipg',ips,(c,i)=>`<article class="card rv" style="--d:${i*90}ms"><div class="pad"><h3>${c[0]}</h3>${c[1].map(r=>`<div class="ipr"><small>${r[0]}</small><code>${r[1]}</code><button class="btn sm" data-copy="${r[1]}">Копировать</button></div>`).join('')}<p>${c[2]}</p></div></article>`);
+$('#rt').innerHTML=roles.map((r,i)=>`<button role="tab" aria-selected="${i==0}" data-i="${i}">${r[0]} ${r[1]}</button>`).join('');
+const rp=$('#rp');function role(i){$$('#rt button').forEach((b,j)=>b.setAttribute('aria-selected',i==j));const r=roles[i];rp.innerHTML=`<h3>${r[0]} ${r[1]}</h3><p>${r[2]}</p><div class="chips">${r[3].map(t=>`<span class="chip">${t}</span>`).join('')}</div><a class="btn p sm" href="#join">Зайти и попробовать</a>`;rp.classList.remove('rn');void rp.offsetWidth;rp.classList.add('rn')}
+$('#rt').onclick=e=>{const b=e.target.closest('button');if(b)role(+b.dataset.i)};role(0);
+R('#feat',feats,(f,i)=>`<article class="card feat rv" style="--d:${i*90}ms"><em>${f[0]}</em><h3>${f[1]}</h3><p>${f[2]}</p></article>`);
+R('#sh',shop,(s,i)=>`<article class="card rv ${i==1?'hit':''}" style="--c:${s[2]};--d:${i*80}ms"><h3>${s[0]}</h3><div class="price">${s[1]} ₽<small> / навсегда</small></div><ul>${s[3].map(b=>`<li>${b}</li>`).join('')}</ul><a class="btn p" href="#discord">Купить</a></article>`);
+R('#nw',news,(n,i)=>`<article class="card news rv" style="--d:${i*80}ms"><canvas class="art" data-p="${n[4]}" data-s="${i*53+7}"></canvas><div class="pad"><div class="meta"><span>${n[0]}</span><b>${n[1]}</b></div><h3>${n[2]}</h3><p>${n[3]}</p><a class="more" href="#news">Читать далее</a></div></article>`);
+R('#rl',rules,(r,i)=>`<details class="rv"${i==0?' open':''}><summary>${r[0]}</summary><ul>${r[1].map(x=>`<li>${x}</li>`).join('')}</ul></details>`);
+
+/* pixel art */
+function art(c,p,seed){const x=c.getContext('2d'),W=c.width=64,H=c.height=32;let s=seed;const r=()=>(s=s*16807%2147483647)/2147483647;
+const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);x.fillStyle=g;x.fillRect(0,0,W,H);
+for(let i=0;i<16;i++){x.fillStyle=`rgba(255,225,160,${.3+r()*.6})`;x.fillRect(r()*W|0,r()*13|0,1,1)}
+let h=H-9;for(let i=0;i<W;i+=2){h=Math.max(H-13,Math.min(H-5,h+(r()*3|0)-1));for(let y=h;y<H;y+=2){x.fillStyle=y==h?p[2]:p[3];x.globalAlpha=.8+r()*.2;x.fillRect(i,y,2,2)}}
+x.globalAlpha=1;const tx=14+(r()*36|0),b=H-8;
+for(let k=0;k<7;k++)for(let j=-k;j<=k;j++){x.fillStyle=j&1?'#f4ecf0':'#e0153a';x.fillRect(tx+j,b-7+k,1,1)}
+x.fillStyle='#120818';x.fillRect(tx-6,b,13,4);x.fillStyle='#f5c15a';x.fillRect(tx,b-9,1,3);x.fillRect(tx+1,b-9,2,1)}
+$$('canvas[data-p]').forEach(c=>art(c,c.dataset.p.split(','),+c.dataset.s));
+
+/* hero skyline */
+const hero=$('#home'),sky=$('#sky'),sx=sky.getContext('2d');
+function drawSky(){const w=sky.width=sky.clientWidth,h=sky.height=sky.clientHeight,b=10;sx.clearRect(0,0,w,h);
+for(let x=0;x<w;x+=b){const t=h-b*(3+Math.round(Math.sin(x/95)*1.6+Math.sin(x/33)*1.1));sx.fillStyle='#0b0610';sx.fillRect(x,t,b,h);sx.fillStyle='#22112b';sx.fillRect(x,t,b,3)}
+[[.12,1],[.88,1.4]].forEach(([p,z])=>{const cx=Math.round(w*p/b)*b,by=h-b*3;for(let k=0;k<9;k++)for(let j=-k;j<=k;j++){sx.fillStyle=j&1?'rgba(244,236,240,.22)':'rgba(224,21,58,.5)';sx.fillRect(cx+j*b*.5*z,by-(9-k)*b*.9*z,b*.5*z+1,b*.9*z+1)}
+sx.fillStyle='#f5c15a';sx.fillRect(cx,by-9*b*.9*z-b*1.6,3,b*1.6)})}
+/* particles */
+const fx=$('#fx'),fc=fx.getContext('2d'),still=matchMedia('(prefers-reduced-motion:reduce)').matches;let P=[],W,H,vis=true;
+function rs(){W=fx.width=fx.clientWidth;H=fx.height=fx.clientHeight;P=Array.from({length:Math.min(80,W/14|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.5,v:Math.random()*.4+.12,c:['245,193,90','224,21,58','168,110,255'][Math.random()*3|0],a:Math.random()*6.28}));drawSky()}
+function tick(){if(vis){fc.clearRect(0,0,W,H);for(const p of P){p.y-=p.v;p.a+=.02;p.x+=Math.sin(p.a)*.3;if(p.y<-5)p.y=H+5;fc.fillStyle=`rgba(${p.c},${.3+Math.sin(p.a*2)*.2})`;fc.fillRect(p.x,p.y,p.r*1.7,p.r*1.7)}}if(!still)requestAnimationFrame(tick)}
+rs();tick();addEventListener('resize',rs);
+new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
+
+/* parallax + card spotlight */
+let tk=0;addEventListener('scroll',()=>{if(tk)return;tk=requestAnimationFrame(()=>{hero.style.setProperty('--sy',Math.min(scrollY,900));tk=0})},{passive:true});
+D.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}});
+
+/* reveal + counters */
+function count(el){const to=+el.dataset.to,sf=el.dataset.s||'',t0=performance.now();(function f(t){const k=Math.min((t-t0)/1600,1),e=1-Math.pow(1-k,3);el.textContent=Math.round(to*e).toLocaleString('ru-RU')+sf;if(k<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);e.target.classList.add('in');$$('[data-to]',e.target).forEach(count)}),{threshold:.15});
+$$('.rv').forEach(el=>io.observe(el));
+
+/* copy */
+D.addEventListener('click',async e=>{const b=e.target.closest('[data-copy]');if(!b)return;const v=b.dataset.copy;try{await navigator.clipboard.writeText(v)}catch(x){const t=D.createElement('textarea');t.value=v;D.body.append(t);t.select();D.execCommand('copy');t.remove()}
+if(b.dataset.o===undefined)b.dataset.o=b.textContent;b.textContent='СКОПИРОВАНО ✓';clearTimeout(b.t);b.t=setTimeout(()=>b.textContent=b.dataset.o,1800);
+if(!still){const r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;for(let i=0;i<16;i++){const a=Math.random()*6.28,d=40+Math.random()*60,el=D.createElement('i');el.className='bp';el.style.cssText=`left:${cx}px;top:${cy}px;background:${['#f5c15a','#e0153a','#a78bfa'][i%3]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d}px`;D.body.append(el);setTimeout(()=>el.remove(),800)}}});
+
+/* menu */
+const bg=$('#bg'),mn=$('#menu');bg.onclick=()=>{const o=mn.classList.toggle('open');bg.setAttribute('aria-expanded',o);bg.textContent=o?'✕':'☰'};
+$$('#menu a').forEach(a=>a.onclick=()=>{mn.classList.remove('open');bg.setAttribute('aria-expanded',false);bg.textContent='☰'});
+
+/* loader */
+const ld=$('#ld'),hide=()=>ld.classList.add('x');
+addEventListener('load',()=>setTimeout(hide,700));setTimeout(hide,3500);
+})();
+</script>
+</body>
+</html>
